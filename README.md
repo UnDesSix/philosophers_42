@@ -5,5 +5,5 @@ The objective of this project is to learn the basics of threading a process and 
 
 ***
 ### Sources
-- [Diff between Process and Thread](https://www.youtube.com/watch?v=IKG1P4rgm54)
+- [Best playlist Yt ever](https://www.youtube.com/watch?v=d9s_d28yJq0&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2)
 - [multitâche en C avec Pthreads](https://franckh.developpez.com/tutoriels/posix/pthreads/)
