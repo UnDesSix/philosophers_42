@@ -3,6 +3,8 @@
 #include <time.h>
 #include <pthread.h>
 
+//Pasing arguments ?!
+
 #define	NB_OF_DICES	8 // 32750 seems to be the maximum nb of threads ont this VM
 
 void	*roll_dice()
