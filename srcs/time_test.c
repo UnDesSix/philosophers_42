@@ -28,9 +28,9 @@ int		get_time_laps()
 		prev = get_diff(prev);
 	return (0);
 }
-
+/*
 int		main()
 {
 	get_time_laps();
 	return (0);
-}
+}*/

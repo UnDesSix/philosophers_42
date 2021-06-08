@@ -56,9 +56,10 @@ int		print_all_primes(void)
 	return (0);
 }
 
+/*
 int		main(void)
 {
 	if (print_all_primes() < 0)
 		printf("Error\n");
 	return (0);
-}
+}*/
