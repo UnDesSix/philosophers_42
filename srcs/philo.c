@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:09:40 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/09 10:49:06 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/09 11:37:36 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	main(int argc, char **argv)
 	if (valid_arg(argc, argv) == FALSE)
 		return (0);
 	options = save_options(argc, argv);
-	check_opt_values(options);
-	free(options);
+	if (check_opt_values(options));
+		return (-1);
+	create_philo(options);
+	if (options != NULL)
+		free(options);
 	return (0);
 }
