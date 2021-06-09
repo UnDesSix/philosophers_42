@@ -1,4 +1,4 @@
-NAME		=	test
+NAME		=	philo
 CC			=	clang
 #CFLAGS		=	-Wall -Wextra -Werror
 CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
