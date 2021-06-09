@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/09 10:43:21 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/09 11:37:24 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int	arg_is_wrong(int arg_nb, int err_code);
 **	SAVE_OPTIONS
 */
 
-t_opt	*save_options(int argc, char **argv);
+t_opt	*save_options(int argc, char **argv)
 
 #endif
