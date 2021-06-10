@@ -6,25 +6,55 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/09 11:37:20 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/10 09:11:38 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	create_philo(t_opt *options)
+void	*routine(void *arg)
 {
-	pthread_t	*th;
-	int			i;
+	t_philo	*philos;
+
+	philos = (t_philo *)arg;
+	printf("I there, I'm philosopher %d.\n", philos->id);
+	return (NULL);
+}
+
+t_philo	*set_table(t_opt *options)
+{
+	int		i;
+	t_philo	*philos;
 
 	i = 0;
-	th = malloc(sizeof(pthread_t) * options->philo_nb);
-	if (th == NULL)
+	philos = malloc(sizeof(t_philo) * options->philo_nb);
+	if (philos == NULL)
+		return (NULL);
+	while (i < options->philo_nb)
+	{
+		philos[i].options = options;
+		philos[i].id = i + 1;
+		philos[i].fork = i + 1;
+		i++;
+	}
+	return (philos);
+}
+
+int	create_philo(t_opt *options)
+{
+	int		i;
+	t_philo	*philos;
+
+	i = -1;
+	philos = set_table(options);
+	if (philos == NULL)
 		return (-1);
-	while (i++ < options->philo_nb)
-		pthread_create(&th[i], NULL, &routine, NULL);
-	i = 0
-	while (i++ < options->philo_nb)
-		pthread_join(th[i], NULL);
+	while (++i < options->philo_nb)
+		pthread_create(&philos[i].th, NULL, &routine, &philos[i]);
+	i = -1;
+	while (++i < options->philo_nb)
+		pthread_join(philos[i].th, NULL);
+	if (philos != NULL)
+		free(philos);
 	return (0);
 }
