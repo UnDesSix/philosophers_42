@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/10 09:11:38 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/10 09:55:07 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_philo	*set_table(t_opt *options)
 	while (i < options->philo_nb)
 	{
 		philos[i].options = options;
-		philos[i].id = i + 1;
+		philos[i].name = i + 1;
 		philos[i].fork = i + 1;
 		i++;
 	}
@@ -50,7 +50,10 @@ int	create_philo(t_opt *options)
 	if (philos == NULL)
 		return (-1);
 	while (++i < options->philo_nb)
+	{
+		philos[i].name = i + 1;
 		pthread_create(&philos[i].th, NULL, &routine, &philos[i]);
+	}
 	i = -1;
 	while (++i < options->philo_nb)
 		pthread_join(philos[i].th, NULL);
