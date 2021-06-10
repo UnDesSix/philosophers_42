@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/09 11:37:24 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/10 08:26:06 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ typedef struct	s_opt
 	int	extra_nb;
 }				t_opt;
 
+typedef struct	s_philo
+{
+	t_opt		*options;
+	pthread_t	th;
+	int			id;
+	int			fork;
+}				t_philo;
+
 /*
 **	CHECK_ARGS
 */
@@ -50,7 +58,13 @@ int	arg_is_wrong(int arg_nb, int err_code);
 /*
 **	SAVE_OPTIONS
 */
+t_bool	wrong_options(t_opt *options);
+t_opt	*save_options(int argc, char **argv);
 
-t_opt	*save_options(int argc, char **argv)
+/*
+**	CREATE_PHILO
+*/
+
+int	create_philo(t_opt *options);
 
 #endif
