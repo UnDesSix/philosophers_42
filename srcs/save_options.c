@@ -6,11 +6,21 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:35:31 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/09 10:47:28 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/10 08:43:01 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+t_bool	wrong_options(t_opt *options)
+{
+	if (options->philo_nb < 1)
+	{
+		printf("Error - One philosopher at least.\n");
+		return (TRUE);
+	}
+	return (FALSE);
+}
 
 t_opt	*save_options(int argc, char **argv)
 {
