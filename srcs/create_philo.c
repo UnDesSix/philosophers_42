@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/10 09:55:07 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/13 12:21:18 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 void	*routine(void *arg)
 {
 	t_philo	*philos;
+	int		i;
 
 	philos = (t_philo *)arg;
-	printf("I there, I'm philosopher %d.\n", philos->id);
+	i = philos->current;
+	printf("%d - ", i);
+	printf("I there, I'm philosopher %d.\n", philos[i].id);
 	return (NULL);
 }
 
@@ -33,7 +36,7 @@ t_philo	*set_table(t_opt *options)
 	while (i < options->philo_nb)
 	{
 		philos[i].options = options;
-		philos[i].name = i + 1;
+		philos[i].id = i + 1;
 		philos[i].fork = i + 1;
 		i++;
 	}
@@ -49,13 +52,13 @@ int	create_philo(t_opt *options)
 	philos = set_table(options);
 	if (philos == NULL)
 		return (-1);
-	while (++i < options->philo_nb)
+	while (++i < 1)
 	{
-		philos[i].name = i + 1;
-		pthread_create(&philos[i].th, NULL, &routine, &philos[i]);
+		philos[0].current = i;
+		pthread_create(&philos[i].th, NULL, &routine, philos);
 	}
 	i = -1;
-	while (++i < options->philo_nb)
+	while (++i < 1)
 		pthread_join(philos[i].th, NULL);
 	if (philos != NULL)
 		free(philos);

@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/10 09:55:04 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/12 09:33:15 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct	s_philo
 {
 	t_opt		*options;
 	pthread_t	th;
-	int			name;
+	int			current;
 	int			id;
 	int			fork;
 }				t_philo;
