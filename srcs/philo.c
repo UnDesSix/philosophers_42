@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:09:40 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/10 08:24:27 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/17 13:23:27 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	check_opt_values(t_opt *options)
 {
 	printf("philo_nb : %d\n", options->philo_nb);
-	printf("time to eat : %d\n", options->time_to_die);
-	printf("time to die: %d\n", options->time_to_eat);
-	printf("time to sleep : %d\n", options->time_to_sleep);
+	printf("time to eat : %ld\n", options->time_to_die);
+	printf("time to die: %ld\n", options->time_to_eat);
+	printf("time to sleep : %ld\n", options->time_to_sleep);
 	printf("extra nb : %d\n", options->extra_nb);
 }
 
