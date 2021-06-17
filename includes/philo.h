@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/16 18:52:10 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/17 14:05:45 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,30 @@ typedef int	t_bool;
 
 typedef struct	s_opt
 {
-	int	philo_nb;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	extra_nb;
+	int			philo_nb;
+	suseconds_t	time_to_die;
+	suseconds_t	time_to_eat;
+	suseconds_t	time_to_sleep;
+	int			extra_nb;
 }				t_opt;
 
 typedef struct	s_philo
 {
-	t_opt		*options;
-	pthread_t	th;
-	int			id;
-	int			fork;
+	t_opt			*options;
+	pthread_t		th;
+	int				id;
+	struct timeval	last_meal;
+	int				l_fork;
+	int				r_fork;
 }				t_philo;
 
 typedef struct	s_arg
 {
-	t_philo	*philos;
-	int		i;
+	t_philo			*philos;
+	pthread_mutex_t	*mutex;
+	int				i;
+	t_bool			all_alive;
+	struct timeval	start;
 }				t_arg;
 
 /*
@@ -72,5 +77,10 @@ t_opt	*save_options(int argc, char **argv);
 */
 
 int	create_philo(t_opt *options);
+
+/*
+**	ROUTINE
+*/
+void	*routine(void *arg);
 
 #endif
