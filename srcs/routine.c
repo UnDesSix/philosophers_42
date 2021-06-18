@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 08:05:33 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/18 10:11:41 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/18 10:18:44 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,24 @@ long	get_timestamp(struct timeval begin)
 
 int	grab_fork(t_arg *table, t_philo *philos, int i)
 {
-//	int	left_fork_res;
-//	int	right_fork_res;
-
-/*	if (i % 2 == 0)
-		right_fork_res = pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]);
-	left_fork_res = pthread_mutex_lock(&table->mutex[philos[i].l_fork - 1]);
-	if (i % 2 == 1)
-		right_fork_res = pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]);
-	if (left_fork_res == 0 && right_fork_res == 0)
-		return (0);
-	else if (left_fork_res == 0 && right_fork_res != 0)
-	{
-		pthread_mutex_unlock(&table->mutex[philos[i].l_fork - 1]);
-		grab_fork(table, philos, i);
-	}
-	else if (left_fork_res != 0 && right_fork_res == 0)
-	{
-		pthread_mutex_unlock(&table->mutex[philos[i].r_fork - 1]);
-		grab_fork(table, philos, i);
-	}
-	else
-		grab_fork(table, philos, i);
-*/
 	if (i % 2 == 0)
+	{
 		while (pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]))
 			;
+		printf("%.5ld %d has taken a left fork\n",
+				get_timestamp(table->start), philos[i].id);
+	}
 	while (pthread_mutex_lock(&table->mutex[philos[i].l_fork - 1]))
 		;
+	printf("%.5ld %d has taken a right fork\n", 
+			get_timestamp(table->start), philos[i].id);
 	if (i % 2 == 1)
+	{
 		while (pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]))
 			;
+		printf("%.5ld %d has taken a left fork\n",
+				get_timestamp(table->start), philos[i].id);
+	}
 	return (0);
 }
 
@@ -86,8 +73,6 @@ void	*routine(void *arg)
 	while (1)
 	{
 		grab_fork(table, philos, i);
-		printf("%.5ld %d has taken a left fork\n", get_timestamp(table->start), philos[i].id);
-		printf("%.5ld %d has taken a right fork\n", get_timestamp(table->start), philos[i].id);
 		printf("%.5ld %d is eating\n", get_timestamp(table->start), philos[i].id);
 		my_usleep(philos[i].options->time_to_eat * 1000);
 		pthread_mutex_unlock(&table->mutex[philos[i].l_fork - 1]);

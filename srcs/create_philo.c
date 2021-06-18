@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/18 09:15:05 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/18 10:25:39 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,28 +83,6 @@ t_arg	*init_arg(t_opt *options)
 	return (arg);
 }
 
-int	sub_create_philo(t_opt *options, t_arg *arg)
-{
-	int	i;
-
-	i = 0;
-	while (i < options->philo_nb)
-	{
-		if (pthread_create(&arg[i].philos[i].th, NULL, &routine, &arg[i]) != 0)
-			return (-1);
-		i += 2;
-	}
-	usleep(50000);
-	i = 1;
-	while (i < options->philo_nb)
-	{
-		if (pthread_create(&arg[i].philos[i].th, NULL, &routine, &arg[i]) != 0)
-			return (-1);
-		i += 2;
-	}
-	return (0);
-}
-
 int	create_philo(t_opt *options)
 {
 	t_arg	*arg;
@@ -117,8 +95,6 @@ int	create_philo(t_opt *options)
 	while (++i < options->philo_nb)
 		if (pthread_create(&arg[i].philos[i].th, NULL, &routine, &arg[i]) != 0)
 			return (-1);
-//	if (sub_create_philo(options, arg) < 0)
-//		return (-1);
 	i = -1;
 	while (++i < options->philo_nb)
 		if (pthread_join(arg[i].philos[i].th, NULL) != 0)
