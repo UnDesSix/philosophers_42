@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/17 14:05:45 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/19 10:06:40 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct	s_philo
 	pthread_t		th;
 	int				id;
 	struct timeval	last_meal;
+	int				meals_nb;
 	int				l_fork;
 	int				r_fork;
 }				t_philo;
@@ -49,8 +50,9 @@ typedef struct	s_arg
 	t_philo			*philos;
 	pthread_mutex_t	*mutex;
 	int				i;
-	t_bool			all_alive;
+	t_bool			*all_alive;
 	struct timeval	start;
+	
 }				t_arg;
 
 /*
@@ -63,8 +65,8 @@ t_bool	valid_arg(int argc, char **argv);
 **	UTILS
 */
 
-int	ft_atoi(const char *str);
-int	arg_is_wrong(int arg_nb, int err_code);
+int		ft_atoi(const char *str);
+int		arg_is_wrong(int arg_nb, int err_code);
 
 /*
 **	SAVE_OPTIONS
@@ -76,11 +78,18 @@ t_opt	*save_options(int argc, char **argv);
 **	CREATE_PHILO
 */
 
-int	create_philo(t_opt *options);
+int		create_philo(t_opt *options);
 
 /*
 **	ROUTINE
 */
 void	*routine(void *arg);
+
+/*
+**	TIME
+*/
+
+int		my_usleep(suseconds_t usec);
+long	get_timestamp(struct timeval begin);
 
 #endif
