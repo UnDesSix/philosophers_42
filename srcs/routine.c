@@ -6,57 +6,47 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 08:05:33 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/18 10:18:44 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/19 11:56:44 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	my_usleep(suseconds_t usec)
+void	start_eating(t_arg *table, t_philo *philos, int i)
 {
-	struct timeval	obj_time;
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	obj_time.tv_usec = current_time.tv_sec * 1E6 + current_time.tv_usec + usec;
-	while (current_time.tv_sec * 1E6 + current_time.tv_usec < obj_time.tv_usec)
-	{
-		gettimeofday(&current_time, NULL);
-	}
-	return (0);
-}
-
-long	get_timestamp(struct timeval begin)
-{
-	long		start;
-	long		end;
-	struct timeval	current;
-
-	start = begin.tv_sec * 1E6 + begin.tv_usec;
-	gettimeofday(&current, NULL);
-	end = current.tv_sec * 1E6 + current.tv_usec;
-	return ((end - start) / 1E3);
+	printf("%.5ld %d is eating\n",
+			(long)(get_timestamp(table->start) / 1E3), philos[i].id);
+	my_usleep(philos[i].options->time_to_eat);
+	gettimeofday(&philos[i].last_meal, NULL);
+	philos[i].meals_nb++;
+	pthread_mutex_unlock(&table->mutex[philos[i].l_fork - 1]);
+	pthread_mutex_unlock(&table->mutex[philos[i].r_fork - 1]);
+	printf("%.5ld %d is sleeping\n",
+			(long)(get_timestamp(table->start) / 1E3), philos[i].id);
+	my_usleep(philos[i].options->time_to_sleep);
+	printf("%.5ld %d is thinking\n",
+			(long)(get_timestamp(table->start) / 1E3), philos[i].id);
 }
 
 int	grab_fork(t_arg *table, t_philo *philos, int i)
 {
 	if (i % 2 == 0)
 	{
-		while (pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]))
-			;
-		printf("%.5ld %d has taken a left fork\n",
-				get_timestamp(table->start), philos[i].id);
+		if (pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]) != 0)
+			return (-1);
+		printf("%.5ld %d has taken a fork\n",
+				(long)(get_timestamp(table->start) / 1E3), philos[i].id);
 	}
-	while (pthread_mutex_lock(&table->mutex[philos[i].l_fork - 1]))
-		;
-	printf("%.5ld %d has taken a right fork\n", 
-			get_timestamp(table->start), philos[i].id);
+	if (pthread_mutex_lock(&table->mutex[philos[i].l_fork - 1]) != 0)
+		return (-1);
+	printf("%.5ld %d has taken a fork\n", 
+			(long)(get_timestamp(table->start) / 1E3), philos[i].id);
 	if (i % 2 == 1)
 	{
-		while (pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]))
-			;
-		printf("%.5ld %d has taken a left fork\n",
-				get_timestamp(table->start), philos[i].id);
+		if (pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]) != 0)
+			return (-1);
+		printf("%.5ld %d has taken a fork\n",
+				(long)(get_timestamp(table->start) / 1E3), philos[i].id);
 	}
 	return (0);
 }
@@ -70,16 +60,10 @@ void	*routine(void *arg)
 	table = (t_arg *)arg;
 	i = table->i;
 	philos = table->philos;
-	while (1)
+	while (*table->all_alive == TRUE)
 	{
-		grab_fork(table, philos, i);
-		printf("%.5ld %d is eating\n", get_timestamp(table->start), philos[i].id);
-		my_usleep(philos[i].options->time_to_eat * 1000);
-		pthread_mutex_unlock(&table->mutex[philos[i].l_fork - 1]);
-		pthread_mutex_unlock(&table->mutex[philos[i].r_fork - 1]);
-		printf("%.5ld %d is sleeping\n", get_timestamp(table->start), philos[i].id);
-		my_usleep(philos[i].options->time_to_sleep * 1000);
-		printf("%.5ld %d is thinking\n", get_timestamp(table->start), philos[i].id);
+		if (grab_fork(table, philos, i) == 0)
+			start_eating(table, philos, i);
 	}
 	return (NULL);
 }

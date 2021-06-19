@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/18 10:25:39 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/19 11:55:10 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ t_philo	*set_table(t_opt *options)
 		else
 			philos[i].l_fork = i;
 		philos[i].r_fork = i + 1;
-//		printf("Philos %d must eat with fork %d and %d.\n",
-//				philos[i].id, philos[i].l_fork, philos[i].r_fork);
+		gettimeofday(&philos[i].last_meal, NULL);
+		philos[i].meals_nb = 0;
 		i++;
 	}
 	return (philos);
@@ -59,17 +59,18 @@ t_arg	*init_arg(t_opt *options)
 	pthread_mutex_t	*mutex;
 	struct timeval	start;
 	int				i;
+	t_bool			all_alive;
 
 	arg = malloc(sizeof(t_arg) * options->philo_nb);
 	if (arg == NULL)
 		return (NULL);
-	arg->all_alive = TRUE;
 	philos = set_table(options);
 	if (philos == NULL)
 		return (NULL);
 	mutex = malloc(sizeof(pthread_mutex_t) * options->philo_nb);
 	if (mutex == NULL)
 		return (NULL);
+	all_alive = TRUE;
 	i = -1;
 	gettimeofday(&start, NULL);
 	while (++i < options->philo_nb)
@@ -78,9 +79,39 @@ t_arg	*init_arg(t_opt *options)
 		arg[i].i = i;
 		arg[i].mutex = mutex;
 		arg[i].start = start;
+		arg[i].all_alive = &all_alive;
 		pthread_mutex_init(&mutex[i], NULL);
 	}
 	return (arg);
+}
+
+t_bool	end_conditions(t_arg *arg, t_opt *options)
+{
+	int	i;
+
+	usleep(5000);
+	i = 0;
+	while (i < options->philo_nb)
+	{
+		if (get_timestamp(arg->philos[i].last_meal)
+				> options->time_to_die * 1E3)
+		{
+			*arg->all_alive = FALSE;
+			printf("%.5ld %d DIEED\n\n\n\n",
+					(long)(get_timestamp(arg->start) / 1E3), arg->philos[i].id);
+			return (TRUE);
+		}
+		if (options->extra_nb >= 0 &&
+				options->extra_nb <= arg->philos[i].meals_nb)
+		{
+			*arg->all_alive = FALSE;
+			printf("%.5ld %d died\n",
+					(long)(get_timestamp(arg->start) / 1E3), arg->philos[i].id);
+			return (TRUE);
+		}
+		i++;
+	}
+	return (FALSE);
 }
 
 int	create_philo(t_opt *options)
@@ -95,10 +126,12 @@ int	create_philo(t_opt *options)
 	while (++i < options->philo_nb)
 		if (pthread_create(&arg[i].philos[i].th, NULL, &routine, &arg[i]) != 0)
 			return (-1);
-	i = -1;
-	while (++i < options->philo_nb)
-		if (pthread_join(arg[i].philos[i].th, NULL) != 0)
-			return (-1);
+	while (end_conditions(arg, options) == FALSE)
+		;
+//	i = -1;
+//	while (++i < options->philo_nb)
+//		if (pthread_join(arg[i].philos[i].th, NULL) != 0)
+//			return (-1);
 	free_all(arg);
 	return (0);
 }
