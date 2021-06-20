@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 07:15:11 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/19 09:52:14 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/20 09:20:13 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 suseconds_t	get_time(void)
 {
-	struct timeval	tp;
+	struct timeval	tmp;
 	suseconds_t		milliseconds;
 
-	gettimeofday(&tp, NULL);
-	milliseconds = tp.tv_sec * 1000;
-	milliseconds += tp.tv_usec / 1000;
+	gettimeofday(&tmp, NULL);
+	milliseconds = tmp.tv_sec * 1000;
+	milliseconds += tmp.tv_usec / 1000;
 	return (milliseconds);
 }
 
@@ -31,7 +31,7 @@ int	my_usleep(suseconds_t ms)
 	curr = get_time();
 	end = curr + ms;
 	while (get_time() < end)
-		usleep(100);
+		usleep(500);
 	return (0);
 }
 
@@ -59,6 +59,6 @@ long	get_timestamp(struct timeval begin)
 	start = begin.tv_sec * 1E6 + begin.tv_usec;
 	gettimeofday(&current, NULL);
 	end = current.tv_sec * 1E6 + current.tv_usec;
-	return ((end - start));
+	return ((end - start) / 1E3);
 }
 
