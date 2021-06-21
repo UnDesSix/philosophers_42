@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/19 10:06:40 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/21 08:12:45 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ t_opt	*save_options(int argc, char **argv);
 **	CREATE_PHILO
 */
 
-int		create_philo(t_opt *options);
-
+int		create_philo(t_opt *options, t_arg *arg);
+t_arg	*init_arg(t_opt *options);
 /*
 **	ROUTINE
 */
