@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/21 08:20:36 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/21 10:13:18 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	free_all(t_arg *arg)
 	int	i;
 
 	i = -1;
-	while (++i < arg->philos->options->philo_nb)
-		pthread_mutex_destroy(&arg->mutex[i]);
+//	while (++i < arg->philos->options->philo_nb)
+//		pthread_mutex_destroy(&arg->mutex[i]);
 	if (arg->philos != NULL)
 		free(arg->philos);
 	if (arg->mutex != NULL)
@@ -145,20 +145,28 @@ int	create_philo(t_opt *options)
 	{
 		if (pthread_create(&arg[i].philos[i].th, NULL, &routine, &arg[i]) != 0)
 			return (-1);
-		if (*arg->all_alive == TRUE && end_conditions(arg, options) == TRUE)
-		{
-			options->philo_nb = i;
-			already_died = TRUE;
-			break ;
-		}
+//		if (*arg->all_alive == TRUE && end_conditions(arg, options) == TRUE)
+//		{
+//			options->philo_nb = i;
+//			already_died = TRUE;
+//			break ;
+//		}
 	}
 	while (already_died == FALSE && end_conditions(arg, options) == FALSE)
 	{
 		usleep(100);
 	}
+//	i = -1;
+//	while (++i < options->philo_nb)
+//	{
+//		pthread_mutex_unlock(&arg->mutex[i]);
+//		pthread_mutex_destroy(&arg->mutex[i]);
+//		pthread_detach(arg[i].philos[i].th);
+//		pthread_join(arg[i].philos[i].th, NULL);
+//	}
 	i = -1;
 	while (++i < options->philo_nb)
-		pthread_detach(arg[i].philos[i].th);
+		pthread_join(arg[i].philos[i].th, NULL);
 //			return (-1);
 	free_all(arg);
 	return (0);
