@@ -6,7 +6,7 @@
 /*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:57:56 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/20 10:37:32 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/21 08:20:36 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_all(t_arg *arg)
 		free(arg->philos);
 	if (arg->mutex != NULL)
 		free(arg->mutex);
-	if (arg->all_alive)
+	if (arg->all_alive != NULL)
 		free(arg->all_alive);
 	if (arg != NULL)
 		free(arg);
