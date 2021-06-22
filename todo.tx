@@ -1,4 +1,4 @@
 - mutex : lunch
 - mutex : print
-- fsanitize=thread
+- fsanitize=thread : data races...
 - norme
