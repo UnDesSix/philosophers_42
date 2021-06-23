@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:04 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/23 11:23:09 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/23 16:52:33 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	free_all(t_arg *arg)
 	i = -1;
 //	while (++i < arg->philos->options->philo_nb)
 //		pthread_mutex_destroy(&arg->mutex[i]);
+	pthread_mutex_destroy(arg->display_mtx);
+//	pthread_mutex_destroy(arg->alive_mtx);
+	free(arg->display_mtx);
+	free(arg->alive_mtx);
 	if (arg->philos != NULL)
 		free(arg->philos);
 	if (arg->mutex != NULL)
@@ -59,6 +63,8 @@ t_arg	*init_arg(t_opt *options)
 	t_arg			*arg;
 	t_philo			*philos;
 	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*display_mtx;
+	pthread_mutex_t	*alive_mtx;
 	struct timeval	start;
 	int				i;
 	t_bool			*all_alive;
@@ -72,10 +78,15 @@ t_arg	*init_arg(t_opt *options)
 	mutex = malloc(sizeof(pthread_mutex_t) * options->philo_nb);
 	if (mutex == NULL)
 		return (NULL);
+	display_mtx = malloc(sizeof(pthread_mutex_t));
+	if (display_mtx == NULL)
+		return (NULL);
+	alive_mtx = malloc(sizeof(pthread_mutex_t));
+	if (alive_mtx == NULL)
+		return (NULL);
 	all_alive = malloc(sizeof(t_bool));
 	if (all_alive == NULL)
 		return (NULL);
-	*all_alive = TRUE;
 	i = -1;
 	gettimeofday(&start, NULL);
 	while (++i < options->philo_nb)
@@ -83,10 +94,15 @@ t_arg	*init_arg(t_opt *options)
 		arg[i].philos = philos;
 		arg[i].i = i;
 		arg[i].mutex = mutex;
+		arg[i].display_mtx = display_mtx;
+		arg[i].alive_mtx = alive_mtx;
 		arg[i].start = start;
 		arg[i].all_alive = all_alive;
 		pthread_mutex_init(&mutex[i], NULL);
 	}
+	pthread_mutex_init(arg->alive_mtx, NULL);
+	pthread_mutex_init(arg->display_mtx, NULL);
+	*all_alive = TRUE;
 	return (arg);
 }
 
@@ -111,7 +127,10 @@ t_bool	end_conditions(t_arg *arg, t_opt *options)
 	i = 0;
 	if (options->extra_nb >= 0 && everyone_ate(arg, options) == TRUE)
 	{
+//		while (pthread_mutex_lock(arg->alive_mtx))
+//			;
 		*arg->all_alive = FALSE;
+//		pthread_mutex_unlock(arg->alive_mtx);
 		return (TRUE);
 	}
 	while (i < options->philo_nb)
@@ -119,7 +138,10 @@ t_bool	end_conditions(t_arg *arg, t_opt *options)
 		if (get_timestamp(arg->philos[i].last_meal) >
 				options->time_to_die)
 		{
+//			while (pthread_mutex_lock(arg->alive_mtx))
+//				;
 			*arg->all_alive = FALSE;
+//			pthread_mutex_unlock(arg->alive_mtx);
 			printf("%.5ld %d died\n",
 					get_timestamp(arg->start), arg->philos[i].id);
 			return (TRUE);
@@ -152,7 +174,7 @@ int	create_philo(t_opt *options)
 //			break ;
 //		}
 	}
-	while (already_died == FALSE && end_conditions(arg, options) == FALSE)
+	while (end_conditions(arg, options) == FALSE)
 	{
 		usleep(100);
 	}
