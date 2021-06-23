@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlarboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/09 07:10:29 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/21 08:22:53 by mlarboul         ###   ########.fr       */
+/*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
+/*   Updated: 2021/06/23 11:25:25 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_arg
 {
 	t_philo			*philos;
 	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*stdout_mtx;
 	int				i;
 	t_bool			*all_alive;
 	struct timeval	start;
