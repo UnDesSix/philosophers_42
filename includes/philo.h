@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/23 11:25:25 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/23 13:20:58 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 
 # define FALSE 0
 # define TRUE 1
+
+#define EATING 0
+#define SLEEPING 1
+#define THINKING 2
+#define FORK 3
+#define DEAD 4
 
 typedef int	t_bool;
 
@@ -49,7 +55,8 @@ typedef struct	s_arg
 {
 	t_philo			*philos;
 	pthread_mutex_t	*mutex;
-	pthread_mutex_t	*stdout_mtx;
+	pthread_mutex_t	*display_mtx;
+	pthread_mutex_t	*alive_mtx;
 	int				i;
 	t_bool			*all_alive;
 	struct timeval	start;
@@ -92,5 +99,11 @@ void	*routine(void *arg);
 
 int		my_usleep(suseconds_t usec);
 long	get_timestamp(struct timeval begin);
+
+/*
+**	TIME
+*/
+void	print_status(int status, t_arg *table, t_philo *philos, int i);
+t_bool	is_alive(t_arg *table);
 
 #endif
