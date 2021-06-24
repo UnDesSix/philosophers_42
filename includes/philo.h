@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 19:26:41 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/24 20:00:08 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #define THINKING 2
 #define FORK 3
 #define DEAD 4
+#define ALL_ATE 5
 
 typedef int	t_bool;
 
@@ -92,6 +93,7 @@ t_arg	*init_arg(t_opt *options);
 /*
 **	ROUTINE
 */
+t_bool	end_conditions(t_arg *arg, t_opt *options);
 void	*routine(void *arg);
 
 /*
