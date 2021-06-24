@@ -6,16 +6,16 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:44 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 08:30:37 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/24 19:26:20 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-suseconds_t	get_time(void)
+long int	get_time(void)
 {
 	struct timeval	tmp;
-	suseconds_t		microseconds;
+	long int		microseconds;
 
 	gettimeofday(&tmp, NULL);
 	microseconds = tmp.tv_sec * 1E6;
@@ -23,10 +23,10 @@ suseconds_t	get_time(void)
 	return (microseconds);
 }
 
-int	my_usleep(suseconds_t ms, t_arg *table)
+int	my_usleep(long int ms, t_arg *table)
 {
-	suseconds_t	curr;
-	suseconds_t	end;
+	long int	curr;
+	long int	end;
 
 	curr = get_time();
 	end = curr + ms * 1E3;

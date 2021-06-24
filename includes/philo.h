@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 11:11:43 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/24 19:26:41 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef int	t_bool;
 typedef struct	s_opt
 {
 	int			philo_nb;
-	suseconds_t	time_to_die;
-	suseconds_t	time_to_eat;
-	suseconds_t	time_to_sleep;
+	long int	time_to_die;
+	long int	time_to_eat;
+	long int	time_to_sleep;
 	int			extra_nb;
 }				t_opt;
 
@@ -98,7 +98,7 @@ void	*routine(void *arg);
 **	TIME
 */
 
-int		my_usleep(suseconds_t usec, t_arg *table);
+int		my_usleep(long int usec, t_arg *table);
 long	get_timestamp(struct timeval begin);
 
 /*
