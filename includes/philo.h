@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/23 13:20:58 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/24 11:11:43 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_arg
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	*display_mtx;
 	pthread_mutex_t	*alive_mtx;
+	pthread_mutex_t	*meals_mtx;
 	int				i;
 	t_bool			*all_alive;
 	struct timeval	start;
@@ -97,7 +98,7 @@ void	*routine(void *arg);
 **	TIME
 */
 
-int		my_usleep(suseconds_t usec);
+int		my_usleep(suseconds_t usec, t_arg *table);
 long	get_timestamp(struct timeval begin);
 
 /*
