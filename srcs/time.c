@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:44 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/23 11:23:46 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/24 08:30:37 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,25 @@
 suseconds_t	get_time(void)
 {
 	struct timeval	tmp;
-	suseconds_t		milliseconds;
+	suseconds_t		microseconds;
 
 	gettimeofday(&tmp, NULL);
-	milliseconds = tmp.tv_sec * 1000;
-	milliseconds += tmp.tv_usec / 1000;
-	return (milliseconds);
+	microseconds = tmp.tv_sec * 1E6;
+	microseconds += tmp.tv_usec;
+	return (microseconds);
 }
 
-int	my_usleep(suseconds_t ms)
+int	my_usleep(suseconds_t ms, t_arg *table)
 {
 	suseconds_t	curr;
 	suseconds_t	end;
 
 	curr = get_time();
-	end = curr + ms;
-	while (get_time() < end)
-		usleep(500);
+	end = curr + ms * 1E3;
+	while (get_time() < end && is_alive(table) == TRUE)
+		usleep(100);
 	return (0);
 }
-
-/*
-int	my_usleep(suseconds_t usec)
-{
-	struct timeval	obj_time;
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	obj_time.tv_usec = current_time.tv_sec * 1E6 + current_time.tv_usec + usec;
-	while (current_time.tv_sec * 1E6 + current_time.tv_usec < obj_time.tv_usec)
-	{
-		gettimeofday(&current_time, NULL);
-	}
-	return (0);
-}*/
 
 long	get_timestamp(struct timeval begin)
 {
