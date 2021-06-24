@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:44 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 19:26:20 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/24 19:28:10 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,3 @@ long	get_timestamp(struct timeval begin)
 	end = current.tv_sec * 1E6 + current.tv_usec;
 	return ((end - start) / 1E3);
 }
-
