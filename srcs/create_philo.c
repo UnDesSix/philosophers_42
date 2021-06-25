@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:04 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 20:03:12 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/25 21:26:09 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_arg	*init_arg(t_opt *options)
 	}
 	pthread_mutex_init(arg->display_mtx, NULL);
 	pthread_mutex_init(arg->alive_mtx, NULL);
+	pthread_mutex_init(arg->meals_mtx, NULL);
 	*all_alive = TRUE;
 	return (arg);
 }
@@ -132,7 +133,7 @@ int	create_philo(t_opt *options)
 			return (-1);
 		i += 2;
 	}
-	my_usleep(10, arg);
+	usleep(1000);
 	i = 1;
 	while (i < options->philo_nb)
 	{
