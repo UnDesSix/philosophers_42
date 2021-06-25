@@ -1,8 +1,8 @@
 NAME		=	philo
 CC			=	clang
 #CFLAGS		=	-Wall -Wextra -Werror
-#CFLAGS		=	-Wall -Wextra -Werror -g
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS		=	-Wall -Wextra -Werror -g
+#CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=thread
 #CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 THREAD_F	=	-lpthread
 RM			=	rm -rf
