@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:44 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/25 17:04:10 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/25 17:26:15 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ long	get_timestamp(struct timeval begin)
 	start = begin.tv_sec * 1000 + begin.tv_usec / 1000;
 	gettimeofday(&current, NULL);
 	end = current.tv_sec * 1000 + current.tv_usec / 1000;
-	return ((end - start));
+	return (end - start);
 }
