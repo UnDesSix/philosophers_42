@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:30 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 20:07:49 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/25 09:04:29 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ t_bool	end_conditions(t_arg *arg, t_opt *options)
 			*arg->all_alive = FALSE;
 			pthread_mutex_unlock(arg->alive_mtx);
 			print_status(DEAD, arg, arg->philos, i);
+			if (options->philo_nb == 1)
+				pthread_mutex_unlock(&arg->mutex[arg->philos[i].r_fork - 1]);
 			return (TRUE);
 		}
 		i++;
@@ -65,12 +67,12 @@ void	start_eating(t_arg *table, t_philo *philos, int i)
 	print_status(EATING, table, philos, i);
 	gettimeofday(&philos[i].last_meal, NULL);
 	my_usleep(philos[i].options->time_to_eat, table);
-	pthread_mutex_lock(table->meals_mtx);
-	pthread_mutex_unlock(table->meals_mtx);
 	pthread_mutex_unlock(&table->mutex[philos[i].l_fork - 1]);
 	pthread_mutex_unlock(&table->mutex[philos[i].r_fork - 1]);
 	print_status(SLEEPING, table, philos, i);
+	pthread_mutex_lock(table->meals_mtx);
 	philos[i].meals_nb++;
+	pthread_mutex_unlock(table->meals_mtx);
 	my_usleep(philos[i].options->time_to_sleep, table);
 	print_status(THINKING, table, philos, i);
 }
@@ -79,6 +81,8 @@ int	grab_fork(t_arg *table, t_philo *philos, int i)
 {
 	pthread_mutex_lock(&table->mutex[philos[i].r_fork - 1]);
 	print_status(FORK, table, philos, i);
+	if (table->philos->options->philo_nb <= 1)
+		return (-1);
 	pthread_mutex_lock(&table->mutex[philos[i].l_fork - 1]);
 	print_status(FORK, table, philos, i);
 	return (0);
