@@ -63,7 +63,6 @@ t_bool	end_conditions(t_arg *arg, t_opt *options, t_philo *philos)
 void	start_eating(t_arg *table, t_philo *philos, int i)
 {
 	print_status(EATING, table, philos, i);
-	gettimeofday(&philos[i].last_meal, NULL);
 	my_usleep(philos[i].options->time_to_eat, table);
 	pthread_mutex_unlock(&table->mtx->fork[philos[i].l_fork - 1]);
 	pthread_mutex_unlock(&table->mtx->fork[philos[i].r_fork - 1]);
