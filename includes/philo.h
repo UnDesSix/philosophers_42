@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/26 10:18:05 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/26 10:33:54 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,24 @@
 # define FALSE 0
 # define TRUE 1
 
-#define EATING 0
-#define SLEEPING 1
-#define THINKING 2
-#define FORK 3
-#define DEAD 4
-#define ALL_ATE 5
+# define EATING 0
+# define SLEEPING 1
+# define THINKING 2
+# define FORK 3
+# define DEAD 4
+# define ALL_ATE 5
 
 typedef int	t_bool;
 
-typedef struct	s_mtx
+typedef struct s_mtx
 {
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	display;
 	pthread_mutex_t	alive;
 	pthread_mutex_t	meals;
 }				t_mtx;
-typedef struct	s_opt
+
+typedef struct s_opt
 {
 	int			philo_nb;
 	long int	time_to_die;
@@ -48,7 +49,7 @@ typedef struct	s_opt
 	int			extra_nb;
 }				t_opt;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	t_opt			*options;
 	pthread_t		th;
@@ -59,14 +60,13 @@ typedef struct	s_philo
 	int				r_fork;
 }				t_philo;
 
-typedef struct	s_arg
+typedef struct s_arg
 {
 	int				i;
 	t_mtx			*mtx;
 	t_bool			*all_alive;
 	t_philo			*philos;
 	struct timeval	start;
-	
 }				t_arg;
 
 /*
@@ -99,7 +99,7 @@ t_arg	*create_arg(t_opt *options);
 /*
 **	ROUTINE
 */
-t_bool	end_conditions(t_arg *arg, t_opt *options);
+t_bool	end_conditions(t_arg *arg, t_opt *options, t_philo *philos);
 void	*routine(void *arg);
 
 /*
