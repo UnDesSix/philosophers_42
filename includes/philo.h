@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:25:22 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 20:00:08 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/26 10:18:05 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@
 
 typedef int	t_bool;
 
+typedef struct	s_mtx
+{
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	display;
+	pthread_mutex_t	alive;
+	pthread_mutex_t	meals;
+}				t_mtx;
 typedef struct	s_opt
 {
 	int			philo_nb;
@@ -54,13 +61,10 @@ typedef struct	s_philo
 
 typedef struct	s_arg
 {
-	t_philo			*philos;
-	pthread_mutex_t	*mutex;
-	pthread_mutex_t	*display_mtx;
-	pthread_mutex_t	*alive_mtx;
-	pthread_mutex_t	*meals_mtx;
 	int				i;
+	t_mtx			*mtx;
 	t_bool			*all_alive;
+	t_philo			*philos;
 	struct timeval	start;
 	
 }				t_arg;
@@ -89,7 +93,9 @@ t_opt	*save_options(int argc, char **argv);
 */
 
 int		create_philo(t_opt *options);
-t_arg	*init_arg(t_opt *options);
+t_philo	*set_table(t_opt *options);
+t_arg	*create_arg(t_opt *options);
+
 /*
 **	ROUTINE
 */
