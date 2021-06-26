@@ -33,8 +33,11 @@ void	print_status(int status, t_arg *table, t_philo *philos, int i)
 	else if (status == ALL_ATE)
 		printf("Everyone ate enough\n");
 	else if (status == EATING && is_alive(table) == TRUE)
+	{
 		printf("%.5ld %d is eating\n",
 			get_timestamp(table->start), philos[i].id);
+		gettimeofday(&philos[i].last_meal, NULL);
+	}
 	else if (status == SLEEPING && is_alive(table) == TRUE)
 		printf("%.5ld %d is sleeping\n",
 			get_timestamp(table->start), philos[i].id);
