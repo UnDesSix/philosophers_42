@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:04 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/26 10:18:30 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/26 10:39:43 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	create_threads(t_arg *arg, int philo_nb)
 			return (-1);
 		i += 2;
 	}
-	usleep(1000);
+	usleep(5000);
 	i = 1;
 	while (i < philo_nb)
 	{
@@ -91,8 +91,8 @@ int	create_philo(t_opt *options)
 		return (-1);
 	if (create_threads(arg, options->philo_nb) != 0)
 		return (-1);
-	while (end_conditions(arg, options) == FALSE)
-		my_usleep(1, arg);
+	while (end_conditions(arg, options, arg->philos) == FALSE)
+		usleep(100);
 	i = -1;
 	while (++i < options->philo_nb)
 		pthread_join(arg[i].philos[i].th, NULL);

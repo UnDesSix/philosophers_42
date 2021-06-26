@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:23:30 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/26 10:13:47 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/26 10:33:33 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_bool	everyone_ate(t_arg *arg, t_opt *options)
 	return (TRUE);
 }
 
-t_bool	end_conditions(t_arg *arg, t_opt *options)
+t_bool	end_conditions(t_arg *arg, t_opt *options, t_philo *philos)
 {
 	int	i;
 
@@ -43,17 +43,17 @@ t_bool	end_conditions(t_arg *arg, t_opt *options)
 			pthread_mutex_lock(&arg->mtx->alive);
 			*arg->all_alive = FALSE;
 			pthread_mutex_unlock(&arg->mtx->alive);
-			print_status(ALL_ATE, arg, arg->philos, i);
+			print_status(ALL_ATE, arg, philos, i);
 			return (TRUE);
 		}
-		if (get_timestamp(arg->philos[i].last_meal) > options->time_to_die)
+		if (get_timestamp(philos[i].last_meal) > options->time_to_die)
 		{
 			pthread_mutex_lock(&arg->mtx->alive);
 			*arg->all_alive = FALSE;
 			pthread_mutex_unlock(&arg->mtx->alive);
-			print_status(DEAD, arg, arg->philos, i);
+			print_status(DEAD, arg, philos, i);
 			if (options->philo_nb == 1)
-				pthread_mutex_unlock(&arg->mtx->fork[arg->philos[i].r_fork - 1]);
+				pthread_mutex_unlock(&arg->mtx->fork[philos[i].r_fork - 1]);
 			return (TRUE);
 		}
 	}
