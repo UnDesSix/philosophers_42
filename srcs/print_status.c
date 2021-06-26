@@ -6,7 +6,7 @@
 /*   By: mlarboul <mlarboul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:22:18 by mlarboul          #+#    #+#             */
-/*   Updated: 2021/06/24 19:59:21 by mlarboul         ###   ########.fr       */
+/*   Updated: 2021/06/26 10:14:57 by mlarboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 t_bool	is_alive(t_arg *table)
 {
-	pthread_mutex_lock(table->alive_mtx);
+	pthread_mutex_lock(&table->mtx->alive);
 	if (*table->all_alive == TRUE)
 	{
-		pthread_mutex_unlock(table->alive_mtx);
+		pthread_mutex_unlock(&table->mtx->alive);
 		return (TRUE);
 	}
-	pthread_mutex_unlock(table->alive_mtx);
+	pthread_mutex_unlock(&table->mtx->alive);
 	return (FALSE);
 }
 
 void	print_status(int status, t_arg *table, t_philo *philos, int i)
 {
-	pthread_mutex_lock(table->display_mtx);
+	pthread_mutex_lock(&table->mtx->display);
 	if (status == DEAD)
 		printf("%.5ld %d died\n",
 			get_timestamp(table->start), philos[i].id);
@@ -44,5 +44,5 @@ void	print_status(int status, t_arg *table, t_philo *philos, int i)
 	else if (status == FORK && is_alive(table) == TRUE)
 		printf("%.5ld %d has taken a fork\n",
 			get_timestamp(table->start), philos[i].id);
-	pthread_mutex_unlock(table->display_mtx);
+	pthread_mutex_unlock(&table->mtx->display);
 }
